@@ -16,3 +16,23 @@ def test_get_meal(session: Session, client: TestClient, name: str):
     assert response.json() == [
         {"id": 1, "name": name},
     ]
+
+
+def test_get_meals(session: Session, client: TestClient):
+
+    names = ["Red lentil curry", "Miso broth ramen", "Kale lentil potato bowl"]
+
+    for name in names:
+        meal = Meal(name=name)
+        session.add(meal)
+
+    response = client.get("/meals")
+
+    assert response.status_code == 200
+    assert response.json() == [
+        {"id": 1, "name": names[0]},
+        {"id": 2, "name": names[1]},
+        {"id": 3, "name": names[2]},
+    ]
+
+
