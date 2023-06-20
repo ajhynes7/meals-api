@@ -15,3 +15,20 @@ def test_get_ingredient(session: Session, client: TestClient, name: str):
     assert response.json() == [
         {"id": 1, "name": name},
     ]
+
+
+def test_get_ingredients(session: Session, client: TestClient):
+    names = ["Red lentils", "Rice", "Garlic"]
+
+    for name in names:
+        ingredient = Ingredient(name=name)
+        session.add(ingredient)
+
+    response = client.get("/ingredients")
+
+    assert response.status_code == 200
+    assert response.json() == [
+        {"id": 1, "name": names[0]},
+        {"id": 2, "name": names[1]},
+        {"id": 3, "name": names[2]},
+    ]
