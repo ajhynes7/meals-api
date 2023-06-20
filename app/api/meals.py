@@ -10,7 +10,6 @@ router = APIRouter()
 
 @router.get("/meals")
 def get_meals(session: Session = Depends(get_session)):
-
     statement = select(Meal)
     meals = session.exec(statement).all()
 

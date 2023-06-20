@@ -6,7 +6,6 @@ from app.models.meal import Meal
 
 @pytest.mark.parametrize("name", ["Peanut satay ramen", "Kkanpoong tofu"])
 def test_get_meal(session: Session, client: TestClient, name: str):
-
     meal = Meal(name=name)
     session.add(meal)
 
@@ -19,7 +18,6 @@ def test_get_meal(session: Session, client: TestClient, name: str):
 
 
 def test_get_meals(session: Session, client: TestClient):
-
     names = ["Red lentil curry", "Miso broth ramen", "Kale lentil potato bowl"]
 
     for name in names:
@@ -34,5 +32,3 @@ def test_get_meals(session: Session, client: TestClient):
         {"id": 2, "name": names[1]},
         {"id": 3, "name": names[2]},
     ]
-
-

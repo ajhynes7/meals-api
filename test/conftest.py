@@ -8,7 +8,6 @@ from app.main import app
 
 @pytest.fixture()
 def session():
-
     engine = create_engine(
         "postgresql://localhost:5432/meals_test",
     )
@@ -31,5 +30,3 @@ def client(session: Session):
     yield client
 
     app.dependency_overrides.clear()
-
-
