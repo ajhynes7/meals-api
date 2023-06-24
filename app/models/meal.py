@@ -1,6 +1,11 @@
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel, Relationship
+from app.models.meal_ingredient_link import MealIngredientLink
 
 
 class Meal(SQLModel, table=True):
-    id: int = Field(primary_key=True, default=None)
+    id: int | None = Field(default=None, primary_key=True)
     name: str
+
+    ingredients: list["Ingredient"] = Relationship(  # noqa: F821
+        back_populates="meals", link_model=MealIngredientLink
+    )
