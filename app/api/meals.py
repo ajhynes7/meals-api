@@ -23,8 +23,16 @@ def get_meals(
             MealIngredientLink, Meal.id == MealIngredientLink.meal_id
         ).join(Ingredient, MealIngredientLink.ingredient_id == Ingredient.id)
 
+        statements_to_intersect = []
+
         for ingredient in ingredients:
-            statement = statement.where(Ingredient.name == ingredient)
+            statements_to_intersect.append(
+                statement.where(Ingredient.name == ingredient)
+            )
+
+        statement = statements_to_intersect[0].intersect_all(
+            *statements_to_intersect[1:]
+        )
 
     meals = session.exec(statement).all()
 

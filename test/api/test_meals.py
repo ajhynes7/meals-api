@@ -53,3 +53,22 @@ def test_get_meals_by_ingredient(session: Session, client: TestClient):
         {"id": 1, "name": "Hummus"},
         {"id": 2, "name": "Falafel"},
     ]
+
+
+def test_get_meals_by_multiple_ingredients(session: Session, client: TestClient):
+    ingredients = [Ingredient(name=name) for name in ["Chickpeas", "Garlic"]]
+    meals = [Meal(name=name) for name in ["Hummus", "Falafel", "PB&J"]]
+
+    meals[0].ingredients.append(ingredients[0])
+    meals[0].ingredients.append(ingredients[1])
+    meals[1].ingredients.append(ingredients[0])
+
+    session.add_all(meals)
+    session.commit()
+
+    response = client.get("/meals", params={"ingredients": ["Chickpeas", "Garlic"]})
+
+    assert response.status_code == 200
+    assert response.json() == [
+        {"id": 1, "name": "Hummus"},
+    ]
