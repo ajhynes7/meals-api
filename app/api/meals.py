@@ -37,3 +37,13 @@ def get_meals(
     meals = session.exec(statement).all()
 
     return meals
+
+
+@router.post("/meals", status_code=201)
+def add_meal(meal: Meal, session: Session = Depends(get_session)):
+    session.add(meal)
+
+    session.commit()
+    session.refresh(meal)
+
+    return meal
