@@ -16,3 +16,13 @@ def test_add_meal(session: Session, client: TestClient, name: str):
     meal = session.execute(statement).scalar_one()
 
     assert meal.name == name
+
+
+@pytest.mark.parametrize("name", ["Peanut satay ramen", "Kkanpoong tofu"])
+def test_add_meal_with_duplicate_name(session: Session, client: TestClient, name: str):
+    response = client.post("/meals", json={"name": name})
+    assert response.status_code == 201
+
+    response = client.post("/meals", json={"name": name})
+    assert response.status_code == 409
+    assert response.json() == {"detail": "This name already exists."}

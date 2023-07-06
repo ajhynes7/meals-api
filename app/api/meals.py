@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
+from sqlalchemy.exc import IntegrityError
+from psycopg2.errors import UniqueViolation
 from sqlmodel import Session
 from sqlmodel.sql.expression import select
 
@@ -43,7 +45,12 @@ def get_meals(
 def add_meal(meal: Meal, session: Session = Depends(get_session)):
     session.add(meal)
 
-    session.commit()
+    try:
+        session.commit()
+    except IntegrityError as error:
+        if isinstance(error.orig, UniqueViolation):
+            raise HTTPException(status_code=409, detail="This name already exists.")
+
     session.refresh(meal)
 
     return meal
