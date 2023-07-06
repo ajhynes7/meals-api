@@ -14,3 +14,13 @@ def get_ingredients(session: Session = Depends(get_session)):
     ingredients = session.exec(statement).all()
 
     return ingredients
+
+
+@router.post("/ingredients", status_code=201)
+def add_ingredient(ingredient: Ingredient, session: Session = Depends(get_session)):
+    session.add(ingredient)
+
+    session.commit()
+    session.refresh(ingredient)
+
+    return ingredient
