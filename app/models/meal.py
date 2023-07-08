@@ -10,3 +10,7 @@ class Meal(SQLModel, table=True):
     ingredients: list["Ingredient"] = Relationship(  # noqa: F821
         back_populates="meals", link_model=MealIngredientLink
     )
+
+
+class MealUpdate(SQLModel):
+    name: str | None = None

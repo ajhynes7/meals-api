@@ -9,6 +9,7 @@ from app.models.meal import Meal
 from app.models.ingredient import Ingredient
 from typing import Annotated
 from app.models.meal_ingredient_link import MealIngredientLink
+from app.models.meal import MealUpdate
 
 router = APIRouter()
 
@@ -52,5 +53,19 @@ def add_meal(meal: Meal, session: Session = Depends(get_session)):
             raise HTTPException(status_code=409, detail="This name already exists.")
 
     session.refresh(meal)
+
+    return meal
+
+
+@router.patch("/meals/{meal_id}", status_code=204)
+def update_meal(
+    meal_id: int, meal_update: MealUpdate, session: Session = Depends(get_session)
+):
+    meal = session.get(Meal, meal_id)
+
+    if meal_update.name:
+        meal.name = meal_update.name
+
+    session.commit()
 
     return meal
