@@ -14,8 +14,16 @@ from app.models.meal import MealUpdate
 router = APIRouter()
 
 
+@router.get("/meals/{meal_id}")
+def read_meal(
+    meal_id: int,
+    session: Session = Depends(get_session),
+):
+    return session.get(Meal, meal_id)
+
+
 @router.get("/meals")
-def get_meals(
+def read_meals(
     session: Session = Depends(get_session),
     ingredients: Annotated[list[str] | None, Query()] = None,
 ):

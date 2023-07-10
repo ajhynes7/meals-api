@@ -8,8 +8,13 @@ from app.models.ingredient import Ingredient
 router = APIRouter()
 
 
+@router.get("/ingredients/{ingredient_id}")
+def read_ingredient(ingredient_id: int, session: Session = Depends(get_session)):
+    return session.get(Ingredient, ingredient_id)
+
+
 @router.get("/ingredients")
-def get_ingredients(session: Session = Depends(get_session)):
+def read_ingredients(session: Session = Depends(get_session)):
     statement = select(Ingredient)
     ingredients = session.exec(statement).all()
 
