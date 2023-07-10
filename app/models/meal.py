@@ -19,5 +19,9 @@ class MealRead(MealBase):
     id: int
 
 
+class MealReadWithIngredients(MealRead):
+    ingredients: list[Ingredient] = []
+
+
 class MealUpdate(SQLModel):
     name: str | None = None

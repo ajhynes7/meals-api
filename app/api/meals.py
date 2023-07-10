@@ -10,11 +10,12 @@ from app.models.ingredient import Ingredient
 from typing import Annotated
 from app.models.meal_ingredient_link import MealIngredientLink
 from app.models.meal import MealUpdate
+from app.models.meal import MealReadWithIngredients
 
 router = APIRouter()
 
 
-@router.get("/meals/{meal_id}")
+@router.get("/meals/{meal_id}", response_model=MealReadWithIngredients)
 def read_meal(
     meal_id: int,
     session: Session = Depends(get_session),

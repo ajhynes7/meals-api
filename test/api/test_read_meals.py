@@ -14,7 +14,32 @@ def test_read_meal(session: Session, client: TestClient):
     response = client.get("/meals/1")
 
     assert response.status_code == 200
-    assert response.json() == {"id": 1, "name": name}
+    assert response.json() == {"id": 1, "name": name, "ingredients": []}
+
+
+def test_read_meal_with_ingredients(session: Session, client: TestClient):
+    meal_name = "Red lentil curry"
+    ingredient_names = ["Red lentils", "Curry powder"]
+
+    meal = Meal(name=meal_name)
+    ingredients = [Ingredient(name=name) for name in ingredient_names]
+
+    meal.ingredients = ingredients
+
+    session.add(meal)
+    session.commit()
+
+    response = client.get("/meals/1")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "name": meal_name,
+        "ingredients": [
+            {"id": 1, "name": ingredient_names[0]},
+            {"id": 2, "name": ingredient_names[1]},
+        ],
+    }
 
 
 def test_read_meals(session: Session, client: TestClient):
