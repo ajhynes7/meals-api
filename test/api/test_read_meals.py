@@ -17,6 +17,13 @@ def test_read_meal(session: Session, client: TestClient):
     assert response.json() == {"id": 1, "name": name, "ingredients": []}
 
 
+def test_read_nonexistent_meal(session: Session, client: TestClient):
+    response = client.get("/meals/1")
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "This meal does not exist."}
+
+
 def test_read_meal_with_ingredients(session: Session, client: TestClient):
     meal_name = "Red lentil curry"
     ingredient_names = ["Red lentils", "Curry powder"]

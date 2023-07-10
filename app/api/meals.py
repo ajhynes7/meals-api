@@ -20,7 +20,12 @@ def read_meal(
     meal_id: int,
     session: Session = Depends(get_session),
 ):
-    return session.get(Meal, meal_id)
+    meal = session.get(Meal, meal_id)
+
+    if not meal:
+        raise HTTPException(status_code=404, detail="This meal does not exist.")
+
+    return meal
 
 
 @router.get("/meals")
