@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 from sqlmodel import Session
-from app.models.meal import Meal
+
 from app.models.ingredient import Ingredient
+from app.models.meal import Meal
 
 
 def test_read_meal(session: Session, client: TestClient):

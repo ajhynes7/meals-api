@@ -1,6 +1,7 @@
 from sqlmodel import Session
-from app.models.meal import Meal
+
 from app.models.ingredient import Ingredient
+from app.models.meal import Meal
 from app.models.meal_ingredient_link import MealIngredientLink
 
 

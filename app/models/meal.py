@@ -1,6 +1,7 @@
-from sqlmodel import Field, SQLModel, Relationship
-from app.models.meal_ingredient_link import MealIngredientLink
+from sqlmodel import Field, Relationship, SQLModel
+
 from app.models.ingredient import Ingredient
+from app.models.meal_ingredient_link import MealIngredientLink
 
 
 class MealBase(SQLModel):

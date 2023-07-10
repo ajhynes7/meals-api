@@ -18,5 +18,6 @@ repos:
       - id: ruff
         name: ruff
         language: system
-        entry: ruff
+        entry: ruff check
+        args: [--fix, --exit-non-zero-on-fix]
         types: [python]

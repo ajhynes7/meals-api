@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
-from app.api import meals
-from app.api import ingredients
+from app.api import ingredients, meals
 
 app = FastAPI()
 

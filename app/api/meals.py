@@ -1,16 +1,15 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
-from sqlalchemy.exc import IntegrityError
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, Query
 from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session
 from sqlmodel.sql.expression import select
 
 from app.api.util import get_session
-from app.models.meal import Meal
 from app.models.ingredient import Ingredient
-from typing import Annotated
+from app.models.meal import Meal, MealReadWithIngredients, MealUpdate
 from app.models.meal_ingredient_link import MealIngredientLink
-from app.models.meal import MealUpdate
-from app.models.meal import MealReadWithIngredients
 
 router = APIRouter()
 
