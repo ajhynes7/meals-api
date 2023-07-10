@@ -28,4 +28,13 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-select = ["E", "F", "I"]
+select = [
+    "BLE",
+    "E",
+    "F",
+    "I",
+    "N",
+    "RUF",
+    "UP",
+    "W",
+]

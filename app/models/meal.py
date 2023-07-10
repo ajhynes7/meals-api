@@ -11,7 +11,7 @@ class MealBase(SQLModel):
 class Meal(MealBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    ingredients: list[Ingredient] = Relationship(  # noqa: F821
+    ingredients: list[Ingredient] = Relationship(
         back_populates="meals", link_model=MealIngredientLink
     )
 
