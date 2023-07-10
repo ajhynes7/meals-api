@@ -77,10 +77,16 @@ def update_meal(
     if meal_update.name:
         meal.name = meal_update.name
 
-    if meal_update.ingredient_ids:
+    if meal_update.ingredient_names:
         ingredients = session.exec(
-            select(Ingredient).where(Ingredient.id.in_(meal_update.ingredient_ids))
+            select(Ingredient).where(Ingredient.name.in_(meal_update.ingredient_names))
         ).all()
+
+        if len(ingredients) != len(meal_update.ingredient_names):
+            raise HTTPException(
+                status_code=403,
+                detail="At least one of these ingredients does not exist.",
+            )
 
         meal.ingredients = ingredients
 

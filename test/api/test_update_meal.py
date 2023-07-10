@@ -42,7 +42,7 @@ def test_update_meal_ingredients(session: Session, client: TestClient):
     response = client.patch(
         f"/meals/{meal.id}",
         json={
-            "ingredient_ids": [ingredient.id for ingredient in ingredients],
+            "ingredient_names": [ingredient.name for ingredient in ingredients],
         },
     )
 
@@ -56,3 +56,25 @@ def test_update_meal_ingredients(session: Session, client: TestClient):
     }
 
     assert meal.ingredients == ingredients
+
+
+def test_update_meal_with_nonexistent_ingredients(session: Session, client: TestClient):
+    meal = Meal(name="Peanut satay ramen")
+
+    ingredients = [Ingredient(name=name) for name in ["Tofu", "Peanut butter", "Ramen"]]
+
+    session.add(meal)
+    session.add_all(ingredients)
+    session.commit()
+
+    response = client.patch(
+        f"/meals/{meal.id}",
+        json={
+            "ingredient_names": ["Apples"],
+        },
+    )
+
+    assert response.status_code == 403
+    assert response.json() == {
+        "detail": "At least one of these ingredients does not exist."
+    }

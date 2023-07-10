@@ -26,4 +26,4 @@ class MealReadWithIngredients(MealRead):
 class MealUpdate(SQLModel):
     name: str | None = None
 
-    ingredient_ids: list[int] | None = None
+    ingredient_names: list[str] | None = None
