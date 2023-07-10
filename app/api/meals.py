@@ -66,7 +66,9 @@ def add_meal(meal: Meal, session: Session = Depends(get_session)):
     return meal
 
 
-@router.patch("/meals/{meal_id}", status_code=204)
+@router.patch(
+    "/meals/{meal_id}", status_code=200, response_model=MealReadWithIngredients
+)
 def update_meal(
     meal_id: int, meal_update: MealUpdate, session: Session = Depends(get_session)
 ):
@@ -74,6 +76,13 @@ def update_meal(
 
     if meal_update.name:
         meal.name = meal_update.name
+
+    if meal_update.ingredient_ids:
+        ingredients = session.exec(
+            select(Ingredient).where(Ingredient.id.in_(meal_update.ingredient_ids))
+        ).all()
+
+        meal.ingredients = ingredients
 
     session.commit()
 
