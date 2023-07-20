@@ -81,6 +81,15 @@ def update_meal(
     if meal_update.name:
         meal.name = meal_update.name
 
+    if meal_update.source:
+        meal.source = meal_update.source
+
+    if meal_update.type:
+        meal.type = meal_update.type
+
+    if meal_update.url:
+        meal.url = meal_update.url
+
     if meal_update.ingredient_names:
         ingredients = session.exec(
             select(Ingredient).where(Ingredient.name.in_(meal_update.ingredient_names))

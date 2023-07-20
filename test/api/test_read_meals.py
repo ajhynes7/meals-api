@@ -15,7 +15,14 @@ def test_read_meal(session: Session, client: TestClient):
     response = client.get("/meals/1")
 
     assert response.status_code == 200
-    assert response.json() == {"id": 1, "name": name, "ingredients": []}
+    assert response.json() == {
+        "id": 1,
+        "name": name,
+        "source": None,
+        "type": None,
+        "url": None,
+        "ingredients": [],
+    }
 
 
 def test_read_nonexistent_meal(session: Session, client: TestClient):
@@ -43,6 +50,9 @@ def test_read_meal_with_ingredients(session: Session, client: TestClient):
     assert response.json() == {
         "id": 1,
         "name": meal_name,
+        "source": None,
+        "type": None,
+        "url": None,
         "ingredients": [
             {"id": 1, "name": ingredient_names[0]},
             {"id": 2, "name": ingredient_names[1]},
@@ -61,9 +71,9 @@ def test_read_meals(session: Session, client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 1, "name": names[0]},
-        {"id": 2, "name": names[1]},
-        {"id": 3, "name": names[2]},
+        {"id": 1, "name": names[0], "source": None, "type": None, "url": None},
+        {"id": 2, "name": names[1], "source": None, "type": None, "url": None},
+        {"id": 3, "name": names[2], "source": None, "type": None, "url": None},
     ]
 
 
@@ -82,8 +92,8 @@ def test_read_meals_by_ingredient(session: Session, client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 1, "name": "Hummus"},
-        {"id": 2, "name": "Falafel"},
+        {"id": 1, "name": "Hummus", "source": None, "type": None, "url": None},
+        {"id": 2, "name": "Falafel", "source": None, "type": None, "url": None},
     ]
 
 
@@ -102,5 +112,5 @@ def test_read_meals_by_multiple_ingredients(session: Session, client: TestClient
 
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 1, "name": "Hummus"},
+        {"id": 1, "name": "Hummus", "source": None, "type": None, "url": None},
     ]
