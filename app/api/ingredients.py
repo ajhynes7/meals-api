@@ -9,12 +9,14 @@ router = APIRouter()
 
 
 @router.get("/ingredients/{ingredient_id}")
-def read_ingredient(ingredient_id: int, session: Session = Depends(get_session)):
+def read_ingredient(
+    ingredient_id: int, session: Session = Depends(get_session)
+) -> Ingredient:
     return session.get(Ingredient, ingredient_id)
 
 
 @router.get("/ingredients")
-def read_ingredients(session: Session = Depends(get_session)):
+def read_ingredients(session: Session = Depends(get_session)) -> list[Ingredient]:
     statement = select(Ingredient)
     ingredients = session.exec(statement).all()
 
@@ -22,7 +24,9 @@ def read_ingredients(session: Session = Depends(get_session)):
 
 
 @router.post("/ingredients", status_code=201)
-def add_ingredient(ingredient: Ingredient, session: Session = Depends(get_session)):
+def add_ingredient(
+    ingredient: Ingredient, session: Session = Depends(get_session)
+) -> Ingredient:
     session.add(ingredient)
 
     session.commit()

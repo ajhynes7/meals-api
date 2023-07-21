@@ -8,17 +8,17 @@ from sqlmodel.sql.expression import select
 
 from app.api.util import get_session
 from app.models.ingredient import Ingredient
-from app.models.meal import Meal, MealReadWithIngredients, MealUpdate
+from app.models.meal import Meal, MealRead, MealReadWithIngredients, MealUpdate
 from app.models.meal_ingredient_link import MealIngredientLink
 
 router = APIRouter()
 
 
-@router.get("/meals/{meal_id}", response_model=MealReadWithIngredients)
+@router.get("/meals/{meal_id}")
 def read_meal(
     meal_id: int,
     session: Session = Depends(get_session),
-):
+) -> MealReadWithIngredients:
     meal = session.get(Meal, meal_id)
 
     if not meal:
@@ -31,7 +31,7 @@ def read_meal(
 def read_meals(
     session: Session = Depends(get_session),
     ingredients: Annotated[list[str] | None, Query()] = None,
-):
+) -> list[MealRead]:
     statement = select(Meal)
 
     if ingredients is not None:
@@ -56,7 +56,7 @@ def read_meals(
 
 
 @router.post("/meals", status_code=201)
-def add_meal(meal: Meal, session: Session = Depends(get_session)):
+def add_meal(meal: Meal, session: Session = Depends(get_session)) -> MealRead:
     session.add(meal)
 
     try:
@@ -70,12 +70,10 @@ def add_meal(meal: Meal, session: Session = Depends(get_session)):
     return meal
 
 
-@router.patch(
-    "/meals/{meal_id}", status_code=200, response_model=MealReadWithIngredients
-)
+@router.patch("/meals/{meal_id}", status_code=200)
 def update_meal(
     meal_id: int, meal_update: MealUpdate, session: Session = Depends(get_session)
-):
+) -> MealReadWithIngredients:
     meal = session.get(Meal, meal_id)
 
     if meal_update.name:
