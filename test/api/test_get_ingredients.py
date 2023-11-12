@@ -6,7 +6,7 @@ from app.models.ingredient import Ingredient
 
 
 @pytest.mark.parametrize("name", ["Red lentils", "Black beans"])
-def test_read_ingredient(session: Session, client: TestClient, name: str):
+def test_get_ingredient(session: Session, client: TestClient, name: str):
     ingredient = Ingredient(name=name)
     session.add(ingredient)
 
@@ -16,7 +16,7 @@ def test_read_ingredient(session: Session, client: TestClient, name: str):
     assert response.json() == {"id": 1, "name": name}
 
 
-def test_read_ingredients(session: Session, client: TestClient):
+def test_get_ingredients(session: Session, client: TestClient):
     names = ["Red lentils", "Rice", "Garlic"]
 
     for name in names:

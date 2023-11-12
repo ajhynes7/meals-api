@@ -15,7 +15,7 @@ router = APIRouter()
 
 
 @router.get("/meals/{meal_id}")
-def read_meal(
+def get_meal(
     meal_id: int,
     session: Session = Depends(get_session),
 ) -> MealReadWithIngredients:
@@ -28,7 +28,7 @@ def read_meal(
 
 
 @router.get("/meals")
-def read_meals(
+def get_meals(
     session: Session = Depends(get_session),
     ingredients: Annotated[list[str] | None, Query()] = None,
 ) -> list[MealRead]:

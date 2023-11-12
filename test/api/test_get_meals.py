@@ -6,7 +6,7 @@ from app.models.ingredient import Ingredient
 from app.models.meal import Meal
 
 
-def test_read_meal(session: Session, client: TestClient):
+def test_get_meal(session: Session, client: TestClient):
     name = "Red lentil curry"
     meal = Meal(name=name)
 
@@ -27,14 +27,14 @@ def test_read_meal(session: Session, client: TestClient):
 
 
 @pytest.mark.usefixtures("session")
-def test_read_nonexistent_meal(client: TestClient):
+def test_get_nonexistent_meal(client: TestClient):
     response = client.get("/meals/1")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "This meal does not exist."}
 
 
-def test_read_meal_with_ingredients(session: Session, client: TestClient):
+def test_get_meal_with_ingredients(session: Session, client: TestClient):
     meal_name = "Red lentil curry"
     ingredient_names = ["Red lentils", "Curry powder"]
 
@@ -62,7 +62,7 @@ def test_read_meal_with_ingredients(session: Session, client: TestClient):
     }
 
 
-def test_read_meals(session: Session, client: TestClient):
+def test_get_meals(session: Session, client: TestClient):
     names = ["Red lentil curry", "Miso broth ramen", "Kale lentil potato bowl"]
 
     for name in names:
@@ -79,7 +79,7 @@ def test_read_meals(session: Session, client: TestClient):
     ]
 
 
-def test_read_meals_by_ingredient(session: Session, client: TestClient):
+def test_get_meals_by_ingredient(session: Session, client: TestClient):
     ingredient = Ingredient(name="Chickpeas")
 
     meals = [Meal(name=name) for name in ["Hummus", "Falafel", "PB&J"]]
@@ -99,7 +99,7 @@ def test_read_meals_by_ingredient(session: Session, client: TestClient):
     ]
 
 
-def test_read_meals_by_multiple_ingredients(session: Session, client: TestClient):
+def test_get_meals_by_multiple_ingredients(session: Session, client: TestClient):
     ingredients = [Ingredient(name=name) for name in ["Chickpeas", "Garlic"]]
     meals = [Meal(name=name) for name in ["Hummus", "Falafel", "PB&J"]]
 
