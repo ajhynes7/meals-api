@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 
@@ -25,7 +26,8 @@ def test_read_meal(session: Session, client: TestClient):
     }
 
 
-def test_read_nonexistent_meal(session: Session, client: TestClient):
+@pytest.mark.usefixtures("session")
+def test_read_nonexistent_meal(client: TestClient):
     response = client.get("/meals/1")
 
     assert response.status_code == 404
