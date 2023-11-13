@@ -6,3 +6,8 @@ class IngredientNutrientLink(SQLModel, table=True):
 
     ingredient_id: int = Field(foreign_key="ingredient.id", primary_key=True)
     nutrient_id: int = Field(foreign_key="nutrient.id", primary_key=True)
+
+
+class IngredientNutrientLinkbyName(SQLModel):
+    ingredient_name: str
+    nutrient_name: str

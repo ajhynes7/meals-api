@@ -32,3 +32,32 @@ def test_add_ingredient_nutrient_link(session: Session, client: TestClient):
 
     assert ingredient.nutrients == [nutrient]
     assert nutrient.ingredients == [ingredient]
+
+
+def test_add_ingredient_nutrient_link_by_name(session: Session, client: TestClient):
+    ingredient_name = "Orange"
+    nutrient_name = "Vitamin C"
+
+    ingredient = Ingredient(name=ingredient_name)
+    nutrient = Nutrient(name=nutrient_name)
+
+    session.add(ingredient)
+    session.add(nutrient)
+    session.commit()
+
+    response = client.post(
+        "/ingredient-nutrient/name",
+        json={"ingredient_name": ingredient.name, "nutrient_name": nutrient.name},
+    )
+
+    assert response.status_code == 201
+    assert response.json() == {
+        "ingredient_id": ingredient.id,
+        "nutrient_id": nutrient.id,
+    }
+
+    session.refresh(ingredient)
+    session.refresh(nutrient)
+
+    assert ingredient.nutrients == [nutrient]
+    assert nutrient.ingredients == [ingredient]
