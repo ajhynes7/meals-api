@@ -51,8 +51,8 @@ def test_get_ingredients_by_nutrient(session: Session, client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 2, "name": "Grapefruit"},
         {"id": 1, "name": "Orange"},
+        {"id": 2, "name": "Grapefruit"},
     ]
 
 

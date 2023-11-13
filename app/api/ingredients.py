@@ -24,7 +24,7 @@ def get_ingredients(
     session: Session = Depends(get_session),
     nutrients: Annotated[list[str] | None, Query()] = None,
 ) -> list[IngredientRead]:
-    statement = select(Ingredient).order_by(Ingredient.name)
+    statement = select(Ingredient).order_by(Ingredient.id)
 
     if nutrients is not None:
         statement = statement.join(

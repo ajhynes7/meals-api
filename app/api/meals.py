@@ -32,7 +32,7 @@ def get_meals(
     session: Session = Depends(get_session),
     ingredients: Annotated[list[str] | None, Query()] = None,
 ) -> list[MealRead]:
-    statement = select(Meal).order_by(Meal.name)
+    statement = select(Meal).order_by(Meal.id)
 
     if ingredients is not None:
         statement = statement.join(

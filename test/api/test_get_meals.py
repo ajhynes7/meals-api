@@ -94,8 +94,8 @@ def test_get_meals_by_ingredient(session: Session, client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == [
-        {"id": 2, "name": "Falafel", "source": None, "type": None, "url": None},
         {"id": 1, "name": "Hummus", "source": None, "type": None, "url": None},
+        {"id": 2, "name": "Falafel", "source": None, "type": None, "url": None},
     ]
 
 
