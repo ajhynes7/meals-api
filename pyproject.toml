@@ -19,9 +19,8 @@ pytest = "^7.3.2"
 requests = "^2.31.0"
 
 [tool.poetry.group.static_analysis.dependencies]
-black = "^23.3.0"
 pre-commit = "^3.3.3"
-ruff = "^0.0.272"
+ruff = "^0.1.6"
 
 [build-system]
 requires = ["poetry-core"]

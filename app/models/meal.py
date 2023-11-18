@@ -25,7 +25,7 @@ class MealRead(MealBase):
 
 
 class MealReadWithIngredients(MealRead):
-    ingredients: list[Ingredient] = []
+    ingredients: list[Ingredient]
 
 
 class MealUpdate(SQLModel):

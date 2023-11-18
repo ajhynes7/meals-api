@@ -8,16 +8,16 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: black
-        name: black
-        language: system
-        entry: black
-        types: [python]
-  - repo: local
-    hooks:
-      - id: ruff
-        name: ruff
+      - id: ruff_check
+        name: ruff check
         language: system
         entry: ruff check
         args: [--fix, --exit-non-zero-on-fix]
+        types: [python]
+  - repo: local
+    hooks:
+      - id: ruff_format
+        name: ruff format
+        language: system
+        entry: ruff format
         types: [python]
